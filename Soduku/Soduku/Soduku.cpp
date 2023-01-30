@@ -6,7 +6,7 @@ using namespace std;
 dont repeat numbers
 	vert, horz, 3x3 cube
 	1-9 in every 3x3 cube
-
+	Project by Has & Swag
 */
 
 
