@@ -6,7 +6,6 @@ using namespace std;
 dont repeat numbers
 	vert, horz, 3x3 cube
 	1-9 in every 3x3 cube
-	Created by Has & Swag
 
 */
 
@@ -34,7 +33,7 @@ vector<vector<int>> generate_board() {
 
 void print_board(vector<vector<int>> board) {
 
-	
+
 	for (int row_index = 0; row_index < 9; row_index++) {
 
 		for (int column_index = 0; column_index < 9; column_index++) {
@@ -53,7 +52,7 @@ void print_board(vector<vector<int>> board) {
 			cout << "\n";
 		}
 	}
-	
+
 }
 
 
@@ -74,7 +73,7 @@ vector<int> column(vector<vector<int>> board, int column_index) {
 
 bool is_solved(vector<vector<int>> board) {
 	for (int row_index = 0; row_index < 9; row_index++)
-	{	 
+	{
 		for (int column_index = 0; column_index < 9; column_index++) {
 
 			if (board[row_index][column_index] == 0) {
@@ -94,7 +93,7 @@ vector<int> box(vector<vector<int>> board, int row_index, int column_index) {
 
 
 
-	
+
 	vector<int> call_box;
 
 	for (int row_index = 0; row_index < 3; row_index++) {
