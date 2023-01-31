@@ -1,5 +1,8 @@
 #include<iostream>
 #include<vector>
+#include <numeric>
+#include <ranges>
+#include <algorithm>
 using namespace std;
 
 /*
@@ -70,6 +73,43 @@ vector<int> column(vector<vector<int>> board, int column_index) {
 	return call_column;
 }
 
+vector <int> substract(vector <int> A, vector <int> B) {
+	sort(A.begin(), A.end());
+	sort(B.begin(), B.end());
+	vector<int> C;
+	set_difference(
+		A.begin(), A.end(),
+		B.begin(), B.end(),
+		back_inserter(C)
+	);
+	return C;
+}
+
+int calculate_possibilities(vector<vector<int>> board) {
+	vector<vector<vector<int>>> board_possibilites; 
+	for (int row_index = 0; row_index < 9; row_index++)
+	{	
+		for (int column_index = 0; column_index < 9; column_index++) {
+			if(board[row_index][column_index] != 0)
+			{
+				vector <int> blank; // Might need pushback
+				board_possibilites[column_index][row_index] = blank;
+					continue;
+			}
+			vector <int> r = row(board, row_index);
+			vector <int> c = column(board, column_index);
+			vector <int> b = box(board,row_index, column_index);
+			
+			vector <int> potential_numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+			vector <int> difference;
+
+
+
+
+		}
+	}
+}
+
 
 bool is_solved(vector<vector<int>> board) {
 	for (int row_index = 0; row_index < 9; row_index++)
@@ -83,29 +123,20 @@ bool is_solved(vector<vector<int>> board) {
 	}
 	return true;
 }
-
-
-
-vector<int> box(vector<vector<int>> board, int row_index, int column_index) {
-
-	int location = row_index * column_index;
-
-
-
-
-
-	vector<int> call_box;
-
-	for (int row_index = 0; row_index < 3; row_index++) {
-
-		for (int column_index = 0; column_index < 3; column_index++) {
-
-			call_box.push_back(board[row_index][column_index]);
+vector<int> box(vector<vector<int>>& board, int row_index, int column_index) {
+	vector<int> box_numbers;
+	int box_row = row_index / 3;
+	int box_column = column_index / 3;
+	int box_row_start = box_row * 3;
+	int box_row_end = box_row_start + 3;
+	int column_start = box_column * 3;
+	int column_end = column_start + 3;
+	for (int box_row_index = box_row_start; box_row_index < box_row_end; box_row_index++) {
+		for (int box_column_index = column_start; box_column_index < column_end; box_column_index++) {
+			box_numbers.push_back(board[box_row_index][box_column_index]);
 		}
 	}
-	return call_box;
-
-
+	return box_numbers;
 }
 
 int main() {
