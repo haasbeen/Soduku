@@ -3,15 +3,8 @@
 #include <numeric>
 #include <ranges>
 #include <algorithm>
+#include "sudokuFunctions.h"
 using namespace std;
-
-/*
-dont repeat numbers
-	vert, horz, 3x3 cube
-	1-9 in every 3x3 cube
-	Project by Has & Swag
-*/
-
 
 vector<vector<int>> generate_board() {
 
@@ -31,8 +24,6 @@ vector<vector<int>> generate_board() {
 	{ BLANK, BLANK, BLANK,     BLANK,   2  ,   5  ,        7  , BLANK, BLANK },
 	};
 }
-
-
 
 void print_board(vector<vector<int>> board) {
 
@@ -58,7 +49,6 @@ void print_board(vector<vector<int>> board) {
 
 }
 
-
 vector<int> row(vector<vector<int>> board, int row_index) {
 	return board[row_index];
 }
@@ -73,7 +63,7 @@ vector<int> column(vector<vector<int>> board, int column_index) {
 	return call_column;
 }
 
-vector <int> substract(vector <int> A, vector <int> B) {
+vector <int> subtract(vector <int> A, vector <int> B) {
 	sort(A.begin(), A.end());
 	sort(B.begin(), B.end());
 	vector<int> C;
@@ -85,30 +75,72 @@ vector <int> substract(vector <int> A, vector <int> B) {
 	return C;
 }
 
-int calculate_possibilities(vector<vector<int>> board) {
-	vector<vector<vector<int>>> board_possibilites; 
+vector<vector<vector<int>>> calculate_possibilities(vector<vector<int>> board) {
+	vector<vector<vector<int>>> board_possibilites = 
+	{
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+		{ {}  , {}  ,  {}  ,   {}  ,  {}  ,  {}  ,   {}  ,  {}  ,  {}  },
+	};
 	for (int row_index = 0; row_index < 9; row_index++)
-	{	
+	{
 		for (int column_index = 0; column_index < 9; column_index++) {
-			if(board[row_index][column_index] != 0)
+			if (board[row_index][column_index] != 0)
 			{
 				vector <int> blank; // Might need pushback
 				board_possibilites[column_index][row_index] = blank;
-					continue;
+				continue;
 			}
 			vector <int> r = row(board, row_index);
 			vector <int> c = column(board, column_index);
-			vector <int> b = box(board,row_index, column_index);
-			
-			vector <int> potential_numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-			vector <int> difference;
+			vector <int> b = box(board, row_index, column_index);
 
+			vector <int> potential_numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
+			potential_numbers = subtract(potential_numbers, r);
+			potential_numbers = subtract(potential_numbers, c);
+			potential_numbers = subtract(potential_numbers, b);
+			board_possibilites[column_index][row_index] = potential_numbers;
+		}
+	} 
+	return board_possibilites;
+}	
 
+vector<vector<int>> calculate_certainties(vector<vector<vector<int>>> board_possibilities) {
+	vector<vector<int>> board_certainties =
+	{
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
 
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+	};
+	for (int row_index = 0; row_index < 9; row_index++) {
+
+		for (int column_index = 0; column_index < 9; column_index++) {
+			if (board_possibilities[column_index][row_index].size() == 1)
+			{
+
+			}
 		}
 	}
-}
+}		
+
+
 
 
 bool is_solved(vector<vector<int>> board) {
@@ -123,6 +155,7 @@ bool is_solved(vector<vector<int>> board) {
 	}
 	return true;
 }
+
 vector<int> box(vector<vector<int>>& board, int row_index, int column_index) {
 	vector<int> box_numbers;
 	int box_row = row_index / 3;
@@ -138,18 +171,4 @@ vector<int> box(vector<vector<int>>& board, int row_index, int column_index) {
 	}
 	return box_numbers;
 }
-
-int main() {
-
-	vector<vector<int>> board = generate_board();
-	print_board(board);
-
-
-	vector<int> b = box(board, 1, 3);
-
-
-
-	return 0;
-}
-
 
