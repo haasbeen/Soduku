@@ -18,12 +18,19 @@ dont repeat numbers
 int main() {
 
 	vector<vector<int>> board = generate_board();
-	print_board(board);
+	cout << "Old Board" << endl;
+	print_board(board); 
 
 
 	vector<vector<vector<int>>> x = calculate_possibilities(board);
 		
-	int y = 0;
+	vector<vector<int>> y = calculate_certainties(x);
+
+	vector<vector<int>> z = fill_certainties(board, y);
+
+	cout << "New Board" << endl;
+
+	print_board(z);
 
 	return 0;
 }

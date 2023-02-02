@@ -96,7 +96,7 @@ vector<vector<vector<int>>> calculate_possibilities(vector<vector<int>> board) {
 			if (board[row_index][column_index] != 0)
 			{
 				vector <int> blank; // Might need pushback
-				board_possibilites[column_index][row_index] = blank;
+				board_possibilites[row_index][column_index] = blank;
 				continue;
 			}
 			vector <int> r = row(board, row_index);
@@ -108,7 +108,7 @@ vector<vector<vector<int>>> calculate_possibilities(vector<vector<int>> board) {
 			potential_numbers = subtract(potential_numbers, r);
 			potential_numbers = subtract(potential_numbers, c);
 			potential_numbers = subtract(potential_numbers, b);
-			board_possibilites[column_index][row_index] = potential_numbers;
+			board_possibilites[row_index][column_index] = potential_numbers;
 		}
 	} 
 	return board_possibilites;
@@ -132,17 +132,45 @@ vector<vector<int>> calculate_certainties(vector<vector<vector<int>>> board_poss
 	for (int row_index = 0; row_index < 9; row_index++) {
 
 		for (int column_index = 0; column_index < 9; column_index++) {
-			if (board_possibilities[column_index][row_index].size() == 1)
+			if (board_possibilities[row_index][column_index].size() == 1)
 			{
-
+				board_certainties[row_index][column_index] = board_possibilities[row_index][column_index][0];
 			}
 		}
 	}
-}		
+	return board_certainties;
+}
 
+vector<vector<int>> fill_certainties(vector<vector<int>>board, vector<vector<int>> board_certainties) {
+	vector<vector<int>> new_board =
+	{
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
 
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
 
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+		{ 0  , 0  ,  0  ,   0  ,  0  ,  0  ,   0  ,  0  ,  0  },
+	};
+	for (int row_index = 0; row_index < 9; row_index++) {
 
+		for (int column_index = 0; column_index < 9; column_index++) {
+			if (board_certainties[row_index][column_index] != 0) {
+
+				new_board[row_index][column_index] = board_certainties[row_index][column_index];
+			}
+			else
+			{
+				new_board[row_index][column_index] = board[row_index][column_index];
+			}
+		}
+	}
+	return new_board;
+}
 bool is_solved(vector<vector<int>> board) {
 	for (int row_index = 0; row_index < 9; row_index++)
 	{

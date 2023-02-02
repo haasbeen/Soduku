@@ -21,6 +21,8 @@ vector<vector<vector<int>>> calculate_possibilities(vector<vector<int>> board);
 
 vector<vector<int>> calculate_certainties(vector<vector<vector<int>>> board_possibilities);
 
+vector<vector<int>> fill_certainties(vector<vector<int>>board, vector<vector<int>> board_certainties);
+
 bool is_solved(vector<vector<int>> board);
 
 vector<int> box(vector<vector<int>>& board, int row_index, int column_index);
