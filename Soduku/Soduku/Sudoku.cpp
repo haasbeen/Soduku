@@ -21,16 +21,31 @@ int main() {
 	cout << "Old Board" << endl;
 	print_board(board); 
 
+	int step = 0;
 
-	vector<vector<vector<int>>> x = calculate_possibilities(board);
-		
-	vector<vector<int>> y = calculate_certainties(x);
+	while (!is_solved(board))
+	{
+		vector<vector<vector<int>>> x = calculate_possibilities(board);
 
-	vector<vector<int>> z = fill_certainties(board, y);
+		vector<vector<int>> y = calculate_certainties(x);
 
-	cout << "New Board" << endl;
+		vector<vector<int>> z = fill_certainties(board, y);
 
-	print_board(z);
+		step++;
+
+		cout << "step " << step << endl;
+
+		if (z == board)
+		{
+			cout << "darn it" << endl;
+
+			break;
+		}
+
+		board = z;
+
+		print_board(board);
+	}
 
 	return 0;
 }
