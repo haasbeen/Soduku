@@ -4,7 +4,7 @@
 #include <ranges>
 #include <algorithm>
 #include "sudokuFunctions.h"
-
+#include <cpr/cpr.h>
 
 using namespace std;
 
@@ -16,6 +16,7 @@ dont repeat numbers
 */
 
 int main() {
+	cpr::Response r = cpr::Get(cpr::Url{ "https://www.google.com" });
 
 	vector<vector<int>> board = generate_board();
 	cout << "Old Board" << endl;
