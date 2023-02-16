@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "sudokuFunctions.h"
 #include <cpr/cpr.h>
-
+using namespace cpr;
 using namespace std;
 
 /*
@@ -16,7 +16,8 @@ dont repeat numbers
 */
 
 int main() {
-	cpr::Response r = cpr::Get(cpr::Url{ "https://www.google.com" });
+	Response r = Get(Url{ "https://sudoku.com/api/level/easy" } , Header{ {"x-requested-with" , "XMLHttpRequest"} });
+	cout << r.text << std::endl;
 
 	vector<vector<int>> board = generate_board();
 	cout << "Old Board" << endl;
