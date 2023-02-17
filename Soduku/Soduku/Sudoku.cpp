@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "sudokuFunctions.h"
 #include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
+
 using namespace cpr;
 using namespace std;
 
@@ -17,9 +19,12 @@ dont repeat numbers
 
 int main() {
 	Response r = Get(Url{ "https://sudoku.com/api/level/easy" } , Header{ {"x-requested-with" , "XMLHttpRequest"} });
-	cout << r.text << std::endl;
+	using json = nlohmann::json;
+	json data = json::parse(r.text);
+	cout << data["mission"] << "\n" << endl;
+	
 
-	vector<vector<int>> board = generate_board();
+	vector<vector<int>> board = parse_board(data["mission"]);
 	cout << "Old Board" << endl;
 	print_board(board); 
 

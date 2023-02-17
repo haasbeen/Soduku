@@ -1,14 +1,16 @@
 #include<iostream>
 #include<vector>
+#include <string>
 #include <numeric>
 #include <ranges>
 #include <algorithm>
+#include <stdlib.h>
 #include "sudokuFunctions.h"
 using namespace std;
 
 vector<vector<int>> generate_board() {
 
-	return 
+	return
 
 	{
 		{ 8, 0, 0,	 9, 0, 2,	 6, 0, 3 },
@@ -23,6 +25,25 @@ vector<vector<int>> generate_board() {
 		{ 0, 0, 3,	 0, 8, 6,	 0, 5, 4 },
 		{ 0, 7, 2,	 0, 5, 0,	 0, 8, 0 },
 	};
+}
+
+vector<vector<int>> parse_board(string web_board) {
+
+	vector<int> web_row;
+	vector<vector<int>> new_board;
+	
+
+	for (int i = 0; i < web_board.size(); i++) {
+		web_row.push_back(stoi(string(1, web_board[i])));
+
+		if ((i + 1) % 9 == 0 ) {
+			new_board.push_back(web_row);
+			web_row.clear();
+			
+		}
+	}
+
+	return new_board;
 }
 
 void print_board(vector<vector<int>> board) {

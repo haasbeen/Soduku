@@ -26,3 +26,5 @@ vector<vector<int>> fill_certainties(vector<vector<int>>board, vector<vector<int
 bool is_solved(vector<vector<int>> board);
 
 vector<int> box(vector<vector<int>>& board, int row_index, int column_index);
+
+vector<vector<int>> parse_board(string web_board);
